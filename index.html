@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Teste Localização</title>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyASfq-ysEu9aiFAa8VKH5dGBw-VLTR5nUs&libraries=&v=weekly"
+    defer></script>
+  <script>
+    function initMap(position) {
+      if (!position) return;
+
+      const lat = position.coords.latitude;
+      const lng = position.coords.longitude;
+      const info = document.querySelector("#info");
+
+      const latitude = document.createElement("p");
+      latitude.innerHTML = `Latitude: ${lat}`;
+      info.appendChild(latitude);
+
+      const longitude = document.createElement("p");
+      longitude.innerHTML = `Longitude: ${lng}`;
+      info.appendChild(longitude);
+
+      const altitude = document.createElement("p");
+      altitude.innerHTML = `Altitude: ${position.coords.altitude}`;
+      info.appendChild(altitude);
+
+      const acuraciaHorizontal = document.createElement("p");
+      acuraciaHorizontal.innerHTML = `Acurácia Horizontal: ${position.coords.accuracy}`;
+      info.appendChild(acuraciaHorizontal);
+
+      const acuraciaVertical = document.createElement("p");
+      acuraciaVertical.innerHTML = `Acurácia Vertical: ${position.coords.altitudeAccuracy}`;
+      info.appendChild(acuraciaVertical);
+
+      const direcao = document.createElement("p");
+      direcao.innerHTML = `Direção: ${position.coords.heading}`;
+      info.appendChild(direcao);
+
+      const velocidade = document.createElement("p");
+      velocidade.innerHTML = `Velocidade: ${position.coords.speed}`;
+      info.appendChild(velocidade);
+
+      const horario = document.createElement("p");
+      horario.innerHTML = `Horário: ${position.timestamp}`;
+      info.appendChild(horario);
+
+      const location = { lat, lng };
+
+      const map = new google.maps.Map(document.querySelector('#map'), {
+        center: location,
+        zoom: 18,
+      });
+
+      new google.maps.Marker({
+        position: location,
+        map,
+        title: "Estou aqui!",
+      });
+    }
+
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(initMap);
+    }
+  </script>
+</head>
+
+<body>
+  <section id="info"></section>
+  <section id="map" style="height: 320px; width: 480px;"></section>
+</body>
+
+</html>
